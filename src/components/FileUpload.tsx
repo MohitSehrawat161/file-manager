@@ -11,20 +11,24 @@ const FileUpload: React.FC = () => {
   } else {
     data = [];
   }
-  console.log(data);
+  // console.log(data);
   const [selectedFiles, setSelectedFiles] =
-    useState<FileUploaderTypes.ValueChangedEvent["value"]>(data);
-    console.log(selectedFiles)
-
-  console.log(localStorage.getItem("data"));
-  const onSelectedFilesChanged = useCallback(
-    (e: FileUploaderTypes.ValueChangedEvent) => {
+    useState(data);
+    
+    // console.log(localStorage.getItem("data"));
+    const onSelectedFilesChanged = useCallback(
+      (e: FileUploaderTypes.ValueChangedEvent) => {
+      console.log(e.value)
      
     
   
-      let arr = [];
+     
+      
+      
+      let all:any=e.value 
+      let arr = [...selectedFiles];
       if (e.value) {
-        for (let i of e.value) {
+        for (let i of all) {
           arr.push({
             name: i.name,
             lastModified: i.lastModified,
@@ -34,9 +38,7 @@ const FileUpload: React.FC = () => {
         }
       }
       localStorage.setItem("data", JSON.stringify(arr));
-
-    
-      let fi:any=e.value 
+    all?.unshift(...selectedFiles)
       setSelectedFiles(e.value)
   
     },
@@ -55,7 +57,7 @@ const FileUpload: React.FC = () => {
         />
         <div>
           <h4>Selected Files</h4>
-          {selectedFiles?.map((file, i) => (
+          {selectedFiles?.map((file:any, i:any) => (
             <div
               className="selected-item"
               key={i}
